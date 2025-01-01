@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Unit Converter</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f9;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+        }
+        .container {
+            width: 100%;
+            max-width: 600px;
+            background: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            padding: 20px;
+        }
+        h1 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .form-group {
+            margin-bottom: 15px;
+        }
+        label {
+            display: block;
+            margin-bottom: 5px;
+            color: #555;
+        }
+        input, select, button {
+            width: 100%;
+            padding: 10px;
+            border: 1px solid #ddd;
+            border-radius: 4px;
+            box-sizing: border-box;
+        }
+        button {
+            background-color: #4CAF50;
+            color: white;
+            border: none;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .result {
+            margin-top: 20px;
+            text-align: center;
+            font-size: 1.2em;
+            color: #4CAF50;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>Unit Converter</h1>
+        <form method="POST">
+            {% csrf_token %}
+            <div class="form-group">
+                <label for="value">Enter the value to convert:</label>
+                <input type="number" id="value" name="value" required>
+            </div>
+
+            <div class="form-group">
+                <label for="category">Select Category:</label>
+                <select id="category" name="category" required>
+                    <option value="length" {% if category == 'length' %} selected {% endif %}>Length</option>
+                    <option value="weight" {% if category == 'weight' %} selected {% endif %}>Weight</option>
+                    <option value="temperature" {% if category == 'temperature' %} selected {% endif %}>Temperature</option>
+                </select>
+            </div>
+
+            {% if category == 'length' %}
+            <div class="form-group">
+                <label for="from_unit">Unit to Convert From:</label>
+                <select id="from_unit" name="from_unit" required>
+                    <option value="mm">Millimeter</option>
+                    <option value="cm">Centimeter</option>
+                    <option value="m">Meter</option>
+                    <option value="km">Kilometer</option>
+                    <option value="in">Inch</option>
+                    <option value="ft">Foot</option>
+                    <option value="yd">Yard</option>
+                    <option value="mi">Mile</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="to_unit">Unit to Convert To:</label>
+                <select id="to_unit" name="to_unit" required>
+                    <option value="mm">Millimeter</option>
+                    <option value="cm">Centimeter</option>
+                    <option value="m">Meter</option>
+                    <option value="km">Kilometer</option>
+                    <option value="in">Inch</option>
+                    <option value="ft">Foot</option>
+                    <option value="yd">Yard</option>
+                    <option value="mi">Mile</option>
+                </select>
+            </div>
+            {% elif category == 'weight' %}
+            <div class="form-group">
+                <label for="from_unit">Unit to Convert From:</label>
+                <select id="from_unit" name="from_unit" required>
+                    <option value="mg">Milligram</option>
+                    <option value="g">Gram</option>
+                    <option value="kg">Kilogram</option>
+                    <option value="oz">Ounce</option>
+                    <option value="lb">Pound</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="to_unit">Unit to Convert To:</label>
+                <select id="to_unit" name="to_unit" required>
+                    <option value="mg">Milligram</option>
+                    <option value="g">Gram</option>
+                    <option value="kg">Kilogram</option>
+                    <option value="oz">Ounce</option>
+                    <option value="lb">Pound</option>
+                </select>
+            </div>
+            {% elif category == 'temperature' %}
+            <div class="form-group">
+                <label for="from_unit">Unit to Convert From:</label>
+                <select id="from_unit" name="from_unit" required>
+                    <option value="Celsius">Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin">Kelvin</option>
+                </select>
+            </div>
+            <div class="form-group">
+                <label for="to_unit">Unit to Convert To:</label>
+                <select id="to_unit" name="to_unit" required>
+                    <option value="Celsius">Celsius</option>
+                    <option value="Fahrenheit">Fahrenheit</option>
+                    <option value="Kelvin">Kelvin</option>
+                </select>
+            </div>
+            {% endif %}
+
+            <button type="submit">Convert</button>
+        </form>
+
+        {% if result %}
+        <div class="result">
+            Result: {{ result }}
+        </div>
+        {% endif %}
+    </div>
+</body>
+</html>
